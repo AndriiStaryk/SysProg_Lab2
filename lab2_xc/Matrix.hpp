@@ -16,6 +16,8 @@ public:
     Matrix(int rows, int cols);
     ~Matrix();
     void print() const;
+    void bubbleSort();
+    void mergeSort();
     
     int& at(int row, int col);
     const int& at(int row, int col) const;
