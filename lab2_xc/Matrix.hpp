@@ -10,14 +10,19 @@
 
 #include <stdio.h>
 #include <vector>
+#include "SafeQueue.hpp"
 
 class Matrix {
 public:
     Matrix(int rows, int cols);
+    Matrix(const Matrix& other);
     ~Matrix();
     void print() const;
     void bubbleSort();
     void mergeSort();
+    
+    void bubbleSortParallel();
+    void mergeSortParallel();
     
     int& at(int row, int col);
     const int& at(int row, int col) const;
