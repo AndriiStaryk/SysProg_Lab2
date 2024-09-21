@@ -10,9 +10,27 @@
 #include <iostream>
 #include <thread>
 
+#ifdef _WIN32 // Windows
+#include <cstdlib> // for rand() on Windows
+#include <ctime>   // for seeding rand() on Windows
+#else // macOS or other
+#include <stdlib.h> // for arc4random on macOS
+#endif
+
 int myRand(const int from, const int to) {
-    return from + arc4random() % (to - from + 1);
+#ifdef _WIN32
+    // Seed rand() if needed
+    static bool seeded = false;
+    if (!seeded) {
+        srand(static_cast<unsigned>(time(0))); // seed only once
+        seeded = true;
 }
+    return from + rand() % (to - from + 1);
+#else
+    return from + arc4random_uniform(to - from + 1); // arc4random_uniform avoids modulo bias
+#endif
+}
+
 
 Matrix::Matrix(int rows, int cols) : rows(rows), cols(cols) {
     data = new int[rows * cols];

@@ -8,6 +8,7 @@
 #include "Matrix.hpp"
 #include "Alghoritms.hpp"
 #include <iostream>	
+#include <chrono>
 
 int main(int argc, const char * argv[]) {
     
@@ -23,14 +24,14 @@ int main(int argc, const char * argv[]) {
     m1.bubbleSort();
     auto stop = std::chrono::high_resolution_clock::now();
     
-    auto duration = duration_cast<std::chrono::microseconds>(stop - start);
+    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
     std::cout << "buble sort time: " << (double)duration.count() / 1000000 << "s" << std::endl;
     
     start = std::chrono::high_resolution_clock::now();
     m2.mergeSort();
     stop = std::chrono::high_resolution_clock::now();
     
-    duration = duration_cast<std::chrono::microseconds>(stop - start);
+    duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
     std::cout << "merge sort time: " << (double)duration.count() / 1000000 << "s" << std::endl;
     
     
@@ -38,7 +39,7 @@ int main(int argc, const char * argv[]) {
     m3.bubbleSortParallel();
     stop = std::chrono::high_resolution_clock::now();
     
-    duration = duration_cast<std::chrono::microseconds>(stop - start);
+    duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
     std::cout << "buble sort parallel time: " << (double)duration.count() / 1000000 << "s" << std::endl;
     
     
@@ -46,7 +47,7 @@ int main(int argc, const char * argv[]) {
     m4.mergeSortParallel();
     stop = std::chrono::high_resolution_clock::now();
     
-    duration = duration_cast<std::chrono::microseconds>(stop - start);
+    duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
     std::cout << "merge sort parallel time: " << (double)duration.count() / 1000000 << "s" << std::endl;
     
     //m.print();

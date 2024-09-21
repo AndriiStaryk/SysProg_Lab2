@@ -1,5 +1,5 @@
-#ifndef SafeQueue_hpp
-#define SafeQueue_hpp
+
+#pragma once
 
 #include <stdio.h>
 #include <thread>
@@ -45,5 +45,4 @@ private:
     bool stop = false;  // Signal to stop all threads
 };
 
-#endif /* SafeQueue_hpp */
 
