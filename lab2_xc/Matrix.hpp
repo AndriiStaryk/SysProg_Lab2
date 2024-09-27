@@ -14,7 +14,7 @@
 
 class Matrix {
 public:
-    Matrix(int rows, int cols);
+    Matrix(int rows, int cols, unsigned seed);
     Matrix(const Matrix& other);
     ~Matrix();
     void print() const;

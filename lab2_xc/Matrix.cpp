@@ -9,36 +9,55 @@
 #include "Alghoritms.hpp"
 #include <iostream>
 #include <thread>
+#include <chrono>
+#include <random>
+//#ifdef _WIN32 // Windows
+//#include <cstdlib> // for rand() on Windows
+//#include <ctime>   // for seeding rand() on Windows
+//#else // macOS or other
+//#include <stdlib.h> // for arc4random on macOS
+//#endif
+//
+//int myRand(const int from, const int to) {
+//#ifdef _WIN32
+//    // Seed rand() if needed
+//    static bool seeded = false;
+//    if (!seeded) {
+//        srand(static_cast<unsigned>(time(0))); // seed only once
+//        seeded = true;
+//}
+//    return from + rand() % (to - from + 1);
+//#else
+//    return from + arc4random_uniform(to - from + 1); // arc4random_uniform avoids modulo bias
+//#endif
+//}
 
-#ifdef _WIN32 // Windows
-#include <cstdlib> // for rand() on Windows
-#include <ctime>   // for seeding rand() on Windows
-#else // macOS or other
-#include <stdlib.h> // for arc4random on macOS
-#endif
 
-int myRand(const int from, const int to) {
-#ifdef _WIN32
-    // Seed rand() if needed
-    static bool seeded = false;
-    if (!seeded) {
-        srand(static_cast<unsigned>(time(0))); // seed only once
-        seeded = true;
+int myRand(const int from, const int to, std::mt19937 &gen) {
+    std::uniform_int_distribution<> dist(from, to);
+    return dist(gen);  // Generate a random number between 'from' and 'to'
 }
-    return from + rand() % (to - from + 1);
-#else
-    return from + arc4random_uniform(to - from + 1); // arc4random_uniform avoids modulo bias
-#endif
-}
 
-
-Matrix::Matrix(int rows, int cols) : rows(rows), cols(cols) {
+// Update Matrix constructor to accept a seed
+Matrix::Matrix(int rows, int cols, unsigned seed) : rows(rows), cols(cols) {
     data = new int[rows * cols];
     
+    // Initialize the random generator with the provided seed
+    std::mt19937 gen(seed);
+
     for (int i = 0; i < rows * cols; ++i) {
-        data[i] = myRand(1, 1000000);
+        data[i] = myRand(1, 1000000, gen);  // Use the random generator
     }
 }
+
+
+//Matrix::Matrix(int rows, int cols) : rows(rows), cols(cols) {
+//    data = new int[rows * cols];
+//    
+//    for (int i = 0; i < rows * cols; ++i) {
+//        data[i] = myRand(1, 1000000);
+//    }
+//}
 
 Matrix::Matrix(const Matrix& other) : rows(other.rows), cols(other.cols) {
     // Allocate memory for the new matrix's data
